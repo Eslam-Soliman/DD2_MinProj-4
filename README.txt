@@ -1,0 +1,1 @@
+This project uses the lp_solver API that is linked dynamically in a C++ environment.
