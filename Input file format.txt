@@ -1,0 +1,11 @@
+beginhard
+<name> <width> <height>
+endhard
+
+beginsoft
+<name> <area>
+endsoft
+
+beginpads
+<name> <width> <height>
+endpads

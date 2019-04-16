@@ -1,0 +1,24 @@
+hardbegin
+
+cpu 5 6
+mem 1 2
+
+man 98 100
+
+endhard
+
+softbegin
+
+soft1 78
+soft2 90
+
+endsoft
+
+padsbegin
+
+pin1 5 10
+pin2 90 9
+
+
+
+endpads
