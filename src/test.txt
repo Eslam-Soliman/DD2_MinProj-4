@@ -1,10 +1,8 @@
 hardbegin
 
-cpu 5 6
-mem 1 2
-
-man 98 100
-
+1 6 8
+2 5 8
+3 2 11
 endhard
 
 softbegin
