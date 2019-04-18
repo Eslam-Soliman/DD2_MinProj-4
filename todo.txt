@@ -1,0 +1,4 @@
+- validate inputs to be integers checking if solve failed
+- create the temp .txt file as a hidden file
+- add a help option
+- add the ability to use '\'

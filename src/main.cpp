@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <map>
 #include <vector>
 #define WIN32
+#define TMPBUF "_temp_buf.txt"
 #include "lp_lib.h"
 
 using namespace std;
@@ -49,8 +51,8 @@ vector<hard> read_hard(ifstream &file){
             }
             else{
                 block.name = tmp[0];
-                block.w = atoi(tmp[1].c_str());
-                block.h = atoi(tmp[2].c_str());
+                block.h = atoi(tmp[1].c_str());
+                block.w = atoi(tmp[2].c_str());
                 hard_blocks.push_back(block);
             }
         }
@@ -86,14 +88,29 @@ vector<soft> read_soft(ifstream &file){
 }
 /*
 int main(){
-    int x = sqrt(110);
-    cout << x << endl;
+    char c[1000];
+    scanf("%s", &c);
+    c[1] = '7';
+    cout << c << endl;
 
 }
 */
 int main(){
+    string path;
+    char module_name[100];
+    cout << "Enter a name for the solving module (100 characters max): ";
+    //scanf("%s", &module_name);
+    fgets(module_name, 100, stdin);
+    string module_name_cpp = module_name;
+    module_name_cpp = module_name_cpp.substr(0, module_name_cpp.length() - 1);
+    cout << "Enter the path of the dimensions file (use '/' for separation): ";
+    cin >> path;
     ifstream input;
-    input.open("test.txt");
+    input.open(path);
+    if(!input.is_open()){
+        cout << "Error in opening the dimensions file.\n" ;
+        exit(-1);
+    }
     string buf;
     vector<hard> hardBlocks, pads;
     vector<soft> softBlocks;
@@ -131,17 +148,17 @@ int main(){
     equations.push_back("min: y;\n\n");
     declr.push_back("int");
     for(int i = 0; i < hardBlocks.size(); i++){
-        equations.push_back("c" + to_string(eq++) + ": " + "x" + to_string(i) + " + " + to_string(hardBlocks[i].w) + " r" + to_string(i) + " + " + to_string(hardBlocks[i].h) + " - " + to_string(hardBlocks[i].h) + " r" + to_string(i) + " <= " + to_string(w) + ";\n");
-        equations.push_back("c" + to_string(eq++) + ": " + "y" + to_string(i) + " + " + to_string(hardBlocks[i].h) + " r" + to_string(i) + " + " + to_string(hardBlocks[i].w) + " - " + to_string(hardBlocks[i].w) + " r" + to_string(i) + " <= y;\n\n");
+        equations.push_back("c" + to_string(eq++) + ": " + "x" + to_string(i) + " + " + to_string(hardBlocks[i].h) + " r" + to_string(i) + " + " + to_string(hardBlocks[i].w) + " - " + to_string(hardBlocks[i].w) + " r" + to_string(i) + " <= " + to_string(w) + ";\n");
+        equations.push_back("c" + to_string(eq++) + ": " + "y" + to_string(i) + " + " + to_string(hardBlocks[i].w) + " r" + to_string(i) + " + " + to_string(hardBlocks[i].h) + " - " + to_string(hardBlocks[i].h) + " r" + to_string(i) + " <= y;\n\n");
         init.push_back("r" + to_string(i) + " <= 1;\n");
         declr.push_back(" r" + to_string(i) + ",");
     }
     for(int i = 0; i < hardBlocks.size(); i++){
         for(int j = i + 1; j < hardBlocks.size(); j++){
-            equations.push_back("c" + to_string(eq++) + ": " + "x" + to_string(i) + " + " + to_string(hardBlocks[i].w) + " r" + to_string(i) + " + " + to_string(hardBlocks[i].h) + " - " + to_string(hardBlocks[i].h) + " r" + to_string(i) + " <= x" + to_string(j) + " + " + to_string(MAX) + " p" + to_string(i) + to_string(j) + " + " + to_string(MAX) + " q" + to_string(i) + to_string(j) + ";\n");
-            equations.push_back("c" + to_string(eq++) + ": " + "y" + to_string(i) + " + " + to_string(hardBlocks[i].h) + " r" + to_string(i) + " + " + to_string(hardBlocks[i].w) + " - " + to_string(hardBlocks[i].w) + " r" + to_string(i) + " <= y" + to_string(j) + " + " + to_string(MAX) + " + " + to_string(MAX) + " p" + to_string(i) + to_string(j) + " - " + to_string(MAX) + " q" + to_string(i) + to_string(j) + ";\n");
-            equations.push_back("c" + to_string(eq++) + ": " + "x" + to_string(i) + " - " + to_string(hardBlocks[j].w) + " r" + to_string(j) + " - " + to_string(hardBlocks[j].h) + " + " + to_string(hardBlocks[j].h) + " r" + to_string(j) + " >= x" + to_string(j) + " - " + to_string(MAX) + " + " + to_string(MAX) + " p" + to_string(i) + to_string(j) + " - " + to_string(MAX) + " q" + to_string(i) + to_string(j) + ";\n");
-            equations.push_back("c" + to_string(eq++) + ": " + "y" + to_string(i) + " - " + to_string(hardBlocks[j].h) + " r" + to_string(j) + " - " + to_string(hardBlocks[j].w) + " + " + to_string(hardBlocks[j].w) + " r" + to_string(j) + " >= y" + to_string(j) + " - " + to_string(2 * MAX) + " + " + to_string(MAX) + " p" + to_string(i) + to_string(j) + " + " + to_string(MAX) + " q" + to_string(i) + to_string(j) + ";\n\n");
+            equations.push_back("c" + to_string(eq++) + ": " + "x" + to_string(i) + " + " + to_string(hardBlocks[i].h) + " r" + to_string(i) + " + " + to_string(hardBlocks[i].w) + " - " + to_string(hardBlocks[i].w) + " r" + to_string(i) + " <= x" + to_string(j) + " + " + to_string(MAX) + " p" + to_string(i) + to_string(j) + " + " + to_string(MAX) + " q" + to_string(i) + to_string(j) + ";\n");
+            equations.push_back("c" + to_string(eq++) + ": " + "y" + to_string(i) + " + " + to_string(hardBlocks[i].w) + " r" + to_string(i) + " + " + to_string(hardBlocks[i].h) + " - " + to_string(hardBlocks[i].h) + " r" + to_string(i) + " <= y" + to_string(j) + " + " + to_string(MAX) + " + " + to_string(MAX) + " p" + to_string(i) + to_string(j) + " - " + to_string(MAX) + " q" + to_string(i) + to_string(j) + ";\n");
+            equations.push_back("c" + to_string(eq++) + ": " + "x" + to_string(i) + " - " + to_string(hardBlocks[j].h) + " r" + to_string(j) + " - " + to_string(hardBlocks[j].w) + " + " + to_string(hardBlocks[j].w) + " r" + to_string(j) + " >= x" + to_string(j) + " - " + to_string(MAX) + " + " + to_string(MAX) + " p" + to_string(i) + to_string(j) + " - " + to_string(MAX) + " q" + to_string(i) + to_string(j) + ";\n");
+            equations.push_back("c" + to_string(eq++) + ": " + "y" + to_string(i) + " - " + to_string(hardBlocks[j].w) + " r" + to_string(j) + " - " + to_string(hardBlocks[j].h) + " + " + to_string(hardBlocks[j].h) + " r" + to_string(j) + " >= y" + to_string(j) + " - " + to_string(2 * MAX) + " + " + to_string(MAX) + " p" + to_string(i) + to_string(j) + " + " + to_string(MAX) + " q" + to_string(i) + to_string(j) + ";\n\n");
             init.push_back("p" + to_string(i) + to_string(j) + " <= 1;\n");
             init.push_back("q" + to_string(i) + to_string(j) + " <= 1;\n");
             declr.push_back(" p" + to_string(i) + to_string(j) + ", q" + to_string(i) + to_string(j) + ",");
@@ -151,7 +168,7 @@ int main(){
     declr[declr.size() - 1][declr[declr.size() - 1].length() - 1] = ';';
 
     ofstream temp_buf;
-    temp_buf.open("_temp_buf.txt");
+    temp_buf.open(TMPBUF);
     if(temp_buf.is_open()){
         for(int i = 0; i < equations.size(); i++)temp_buf << equations[i];
         for(int i = 0; i < init.size(); i++)temp_buf << init[i];
@@ -164,9 +181,6 @@ int main(){
     }
 
 
-
-
-
     //Using lp_solve API to solve for the objective function
     lprec *lp;
     HINSTANCE lpsolve;
@@ -175,7 +189,6 @@ int main(){
     solve_func *solve;
     get_Nrows_func *get_Nrows;
     get_Ncolumns_func *get_Ncolumns;
-    get_objective_func *get_objective;
     get_col_name_func *get_col_name;
     get_var_primalresult_func *get_var_primalresult;
 
@@ -190,31 +203,41 @@ int main(){
     solve = (solve_func *) GetProcAddress(lpsolve, "solve");
     get_Nrows = (get_Nrows_func *) GetProcAddress(lpsolve, "get_Nrows");
     get_Ncolumns = (get_Ncolumns_func *) GetProcAddress(lpsolve, "get_Ncolumns");
-    get_objective = (get_objective_func *) GetProcAddress(lpsolve, "get_objective");
     get_col_name = (get_col_name_func *) GetProcAddress(lpsolve, "get_col_name");
     get_var_primalresult = (get_var_primalresult_func *) GetProcAddress(lpsolve, "get_var_primalresult");
 
 
-    char path[100] = "_temp_buf.txt";
-    char name[15] = "solve_module";
-    double ans[35];
-    cout << "REACHED" << endl;
-    lp = read_LP(path, 3, name);
+    char _temp_buf[100] = TMPBUF;
+    lp = read_LP(_temp_buf, 3, module_name);
+    remove(TMPBUF);
     int result = solve(lp);
-    cout << "RES   " << result << endl;
-    int Nrows = get_Nrows(lp);
-    int Ncols = get_Ncolumns(lp);
+    if(result == 0 || result == 1){
+        cout << "RES   " << result << endl;
+        int Nrows = get_Nrows(lp);
+        int Ncols = get_Ncolumns(lp);
 
-    vector <pair<string, double> > Results(Ncols);
+        map <string, double> Results;
 
-    for(int i = 0; i < Ncols; i++){
-        Results[i] = make_pair(get_col_name(lp, i + 1), get_var_primalresult(lp, i + 1 + Nrows));
+        for(int i = 0; i < Ncols; i++) Results[get_col_name(lp, i + 1)] = get_var_primalresult(lp, i + 1 + Nrows);
+
+        ofstream output;
+        string output_file = "Floorplanning_" + module_name_cpp + "_Results.txt";
+        cout << module_name_cpp.length() << endl;
+        cout << output_file << endl;
+        output.open(output_file);
+        output << "Hard blocks positioning:\n";
+        for(int i = 0; i < hardBlocks.size(); i++){
+            output << "Block \"" << hardBlocks[i].name << "\"{\n";
+            output << "x-coordinates = " << Results["x" + to_string(i)] << '\n';
+            output << "y-coordinates = " << Results["y" + to_string(i)] << '\n';
+            output << "width = " << ((Results["r" + to_string(i)] == 0)? hardBlocks[i].w : hardBlocks[i].h) << '\n';
+            output << "height = " << ((Results["r" + to_string(i)] == 1)? hardBlocks[i].w : hardBlocks[i].h) << "\n}\n\n";
+        }
     }
-
-    for(int i = 0; i < Results.size(); i++)cout << Results[i].first << " = " << Results[i].second << endl;
-
+    else{
+        cout << "Error: Couldn't find a suitable solution.\n";
+        exit(1);
+    }
     delete_lp(lp);
-
     FreeLibrary(lpsolve);
-    remove("_temp_buf.txt");
 }
