@@ -1,0 +1,13 @@
+hardbegin
+
+hard1 4 5
+hard2 37
+
+endhard
+
+softbegin
+
+soft1 24 2
+soft2 49 2
+
+endsoft

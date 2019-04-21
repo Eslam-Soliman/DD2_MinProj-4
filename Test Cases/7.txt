@@ -1,0 +1,28 @@
+hardbegin
+
+a 100 20
+b 50 50
+
+
+endhard
+
+
+
+softbegin
+
+A 2000 4
+B 500 4
+C 1000 4
+
+endsoft
+
+
+padsbegin
+
+pin1 5 7
+pin2 3 7
+pin3 9 7
+pin4 10 7
+
+
+endpads

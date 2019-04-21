@@ -1,0 +1,8 @@
+hardbegin
+
+mod1 3 1
+mod2 1 5
+mod3 3 3
+mod4 5 1
+
+endhard

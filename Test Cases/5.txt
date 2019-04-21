@@ -1,0 +1,9 @@
+softbegin
+
+mod1 4 5
+mod2 3 7
+mod3 6 4
+mod4 7 7
+mod5 10 4
+
+endsoft

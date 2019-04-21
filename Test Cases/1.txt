@@ -1,0 +1,7 @@
+softbegin
+
+A 2000 4
+B 500 4
+C 1000 4
+
+endsoft

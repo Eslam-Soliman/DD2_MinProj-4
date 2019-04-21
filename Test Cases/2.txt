@@ -1,0 +1,8 @@
+hardbegin
+
+a 6 8
+b 5 8
+c 2 11
+
+
+endhard

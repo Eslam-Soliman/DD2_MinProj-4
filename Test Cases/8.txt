@@ -1,0 +1,32 @@
+hardbegin
+
+h1 10 20
+h2 50 20
+h3 100 100
+h4 30 40
+
+endhard
+
+
+softbegin
+
+s1 2000 2
+s2 500 2
+s3 4000 4
+s4 2500 5
+
+endsoft
+
+
+padsbegin
+
+p1 10 20
+p2 10 20
+p3 20 20
+p4 10 20
+p5 30 20
+p6 10 20
+p7 10 20
+p8 30 20
+
+endpads
