@@ -1,0 +1,3 @@
+- The pad width is always in parallel with the core side, and the length is out of the core side. 
+- In the output, the soft block sizes are not exactly matches the input, mostly it is over-estimated. Still, it is advisible to input area bigger than the expected.
+- All the inputted numbers are expected to be integers. 

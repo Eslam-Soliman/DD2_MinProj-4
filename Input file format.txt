@@ -1,11 +1,11 @@
 beginhard
-<name> <width> <height>
+<name> <height> <width>
 endhard
 
 beginsoft
-<name> <area>
+<name> <area> <Aspect Ratio>
 endsoft
 
 beginpads
-<name> <width> <height>
+<name> <height> <width>
 endpads
